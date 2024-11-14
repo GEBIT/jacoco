@@ -18,6 +18,12 @@
   <version>0.8.13-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <parent>
+  <groupId>org.jacoco</groupId>
+  <artifactId>root</artifactId>
+  <version>0.8.13-SNAPSHOT</version>
+  </parent>
+
   <name>JaCoCo</name>
   <description>JaCoCo - Java Code Coverage Library</description>
   <url>http://jacoco.org</url>
@@ -522,7 +528,7 @@
                   <version>17</version>
                 </requireJavaVersion>
                 <requireMavenVersion>
-                  <version>3.9.9</version>
+                  <version>3.6.3</version>
                 </requireMavenVersion>
                 <requireNoRepositories>
                   <message>The rules for repo1.maven.org are that pom.xml files should not include repository definitions.</message>
