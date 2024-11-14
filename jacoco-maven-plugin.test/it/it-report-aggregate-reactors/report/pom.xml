@@ -33,11 +33,8 @@
             <id>report-aggregate</id>
             <phase>verify</phase>
             <goals>
-              <goal>report-aggregate</goal>
+              <goal>report-aggregate-all</goal>
             </goals>
-            <configuration>
-              <onlyReactorProjects>true</onlyReactorProjects>
-            </configuration>
           </execution>
         </executions>
       </plugin>
