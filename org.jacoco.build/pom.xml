@@ -15,13 +15,13 @@
 
   <groupId>org.jacoco</groupId>
   <artifactId>org.jacoco.build</artifactId>
-  <version>0.8.13-SNAPSHOT</version>
+  <version>0.8.13-gebit1</version>
   <packaging>pom</packaging>
 
   <parent>
   <groupId>org.jacoco</groupId>
   <artifactId>root</artifactId>
-  <version>0.8.13-SNAPSHOT</version>
+  <version>0.8.13-gebit1</version>
   </parent>
 
   <name>JaCoCo</name>
