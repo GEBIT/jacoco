@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (c) 2009, 2024 Mountainminds GmbH & Co. KG and Contributors
+   Copyright (c) 2009, 2025 Mountainminds GmbH & Co. KG and Contributors
    This program and the accompanying materials are made available under
    the terms of the Eclipse Public License 2.0 which is available at
    http://www.eclipse.org/legal/epl-2.0
@@ -15,13 +15,13 @@
 
   <groupId>org.jacoco</groupId>
   <artifactId>org.jacoco.build</artifactId>
-  <version>0.8.13-SNAPSHOT</version>
+  <version>0.8.13</version>
   <packaging>pom</packaging>
 
   <parent>
   <groupId>org.jacoco</groupId>
   <artifactId>root</artifactId>
-  <version>0.8.13-SNAPSHOT</version>
+  <version>0.8.13</version>
   </parent>
 
   <name>JaCoCo</name>
@@ -135,7 +135,7 @@
 
     <maven.build.timestamp.format>yyyyMMddhhmm</maven.build.timestamp.format>
     <jacoco.home.url>http://www.jacoco.org/jacoco</jacoco.home.url>
-    <copyright.years>${project.inceptionYear}, 2024</copyright.years>
+    <copyright.years>${project.inceptionYear}, 2025</copyright.years>
 
     <bytecode.version>1.5</bytecode.version>
     <maven.compiler.source>${bytecode.version}</maven.compiler.source>
@@ -145,7 +145,7 @@
     <argLine>${jvm.args}</argLine>
 
     <!-- Dependencies versions -->
-    <asm.version>9.7</asm.version>
+    <asm.version>9.8</asm.version>
     <ant.version>1.9.16</ant.version>
     <args4j.version>2.0.28</args4j.version>
     <junit.version>4.13.2</junit.version>
@@ -313,22 +313,23 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <!-- latest version which works with JDK 5 -->
+          <version>3.12.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.8.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -338,12 +339,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-invoker-plugin</artifactId>
-          <version>3.7.0</version>
+          <version>3.9.0</version>
           <configuration>
             <streamLogsOnFailures>true</streamLogsOnFailures>
           </configuration>
@@ -351,7 +352,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.2.6</version>
+          <version>3.2.7</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -361,7 +362,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.10.0</version>
+          <version>3.11.2</version>
           <configuration>
             <quiet>true</quiet>
             <detectOfflineLinks>false</detectOfflineLinks>
@@ -442,7 +443,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.5.0</version>
         </plugin>
         <!-- Third-party plugins -->
         <plugin>
@@ -453,17 +454,17 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>6.0.0</version>
         </plugin>
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
-          <version>2.43.0</version>
+          <version>2.44.3</version>
        </plugin>
        <plugin>
          <groupId>org.sonarsource.scanner.maven</groupId>
          <artifactId>sonar-maven-plugin</artifactId>
-         <version>4.0.0.4121</version>
+         <version>5.0.0.4389</version>
        </plugin>
       </plugins>
     </pluginManagement>
@@ -613,7 +614,7 @@
                   <include name="**/*.scala"/>
                   <not>
                     <and>
-                      <contains text="Copyright (c) 2009, 2024 Mountainminds GmbH &amp; Co. KG and Contributors"/>
+                      <contains text="Copyright (c) ${copyright.years} Mountainminds GmbH &amp; Co. KG and Contributors"/>
                       <contains text="This program and the accompanying materials are made available under"/>
                       <contains text="the terms of the Eclipse Public License 2.0 which is available at"/>
                       <contains text="http://www.eclipse.org/legal/epl-2.0"/>
@@ -947,6 +948,20 @@
         <property>
           <name>bytecode.version</name>
           <value>24</value>
+        </property>
+      </activation>
+      <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>java25-bytecode</id>
+      <activation>
+        <property>
+          <name>bytecode.version</name>
+          <value>25</value>
         </property>
       </activation>
       <properties>

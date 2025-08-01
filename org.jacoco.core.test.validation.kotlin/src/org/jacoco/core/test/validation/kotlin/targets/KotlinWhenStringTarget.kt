@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2024 Mountainminds GmbH & Co. KG and Contributors
+ * Copyright (c) 2009, 2025 Mountainminds GmbH & Co. KG and Contributors
  * This program and the accompanying materials are made available under
  * the terms of the Eclipse Public License 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0
@@ -13,42 +13,9 @@
 package org.jacoco.core.test.validation.kotlin.targets
 
 /**
- * This test target is `when` expression.
+ * Test target with `when` expressions with subject of type `String`.
  */
-object KotlinWhenExpressionTarget {
-
-    private sealed class Sealed {
-        object Sealed1 : Sealed()
-        object Sealed2 : Sealed()
-    }
-
-    private fun whenSealed(p: Sealed): Int = when (p) { // assertFullyCovered()
-        is Sealed.Sealed1 -> 1 // assertFullyCovered(0, 2)
-        is Sealed.Sealed2 -> 2 // assertFullyCovered()
-    } // assertFullyCovered()
-
-    @Suppress("REDUNDANT_ELSE_IN_WHEN")
-    private fun whenSealedRedundantElse(p: Sealed): Int = when (p) { // assertFullyCovered()
-        is Sealed.Sealed1 -> 1 // assertFullyCovered(0, 2)
-        is Sealed.Sealed2 -> 2 // assertFullyCovered(0, 0)
-        else -> throw NoWhenBranchMatchedException() // assertEmpty()
-    } // assertFullyCovered()
-
-    private enum class Enum {
-        A, B
-    }
-
-    private fun whenEnum(p: Enum): Int = when (p) {  // assertFullyCovered(0, 2)
-        Enum.A -> 1 // assertFullyCovered()
-        Enum.B -> 2 // assertFullyCovered()
-    } // assertFullyCovered()
-
-    @Suppress("REDUNDANT_ELSE_IN_WHEN")
-    private fun whenEnumRedundantElse(p: Enum): Int = when (p) { // assertFullyCovered(0, 2)
-        Enum.A -> 1 // assertFullyCovered()
-        Enum.B -> 2 // assertFullyCovered()
-        else -> throw NoWhenBranchMatchedException() // assertEmpty()
-    } // assertFullyCovered()
+object KotlinWhenStringTarget {
 
     private fun whenString(p: String): Int = when (p) { // assertFullyCovered(0, 7)
         "a" -> 1 // assertFullyCovered()
@@ -59,6 +26,23 @@ object KotlinWhenExpressionTarget {
         "\u0000c" -> 6 // assertFullyCovered()
         else -> 7 // assertFullyCovered()
     } // assertFullyCovered()
+
+    private fun whenStringNullableDefault(p: String?): String =
+        when (p) { // assertFullyCovered(0, 4)
+            "a" -> "case a" // assertFullyCovered()
+            "b" -> "case b" // assertFullyCovered()
+            "c" -> "case c" // assertFullyCovered()
+            else -> "else" // assertFullyCovered()
+        } // assertFullyCovered()
+
+    private fun whenStringNullableCase(p: String?): String =
+        when (p) { // assertFullyCovered(0, 5)
+            "a" -> "case a" // assertFullyCovered()
+            "b" -> "case b" // assertFullyCovered()
+            "c" -> "case c" // assertFullyCovered()
+            null -> "null" // assertFullyCovered()
+            else -> "else" // assertFullyCovered()
+        } // assertFullyCovered()
 
     /**
      * Unlike [whenString]
@@ -76,18 +60,6 @@ object KotlinWhenExpressionTarget {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        whenSealed(Sealed.Sealed1)
-        whenSealed(Sealed.Sealed2)
-
-        whenSealedRedundantElse(Sealed.Sealed1)
-        whenSealedRedundantElse(Sealed.Sealed2)
-
-        whenEnum(Enum.A)
-        whenEnum(Enum.B)
-
-        whenEnumRedundantElse(Enum.A)
-        whenEnumRedundantElse(Enum.B)
-
         whenString("")
         whenString("a")
         whenString("b")
@@ -95,6 +67,17 @@ object KotlinWhenExpressionTarget {
         whenString("\u0000a")
         whenString("\u0000b")
         whenString("\u0000c")
+
+        whenStringNullableDefault("a")
+        whenStringNullableDefault("b")
+        whenStringNullableDefault("c")
+        whenStringNullableDefault("")
+
+        whenStringNullableCase("a")
+        whenStringNullableCase("b")
+        whenStringNullableCase("c")
+        whenStringNullableCase(null)
+        whenStringNullableCase("")
 
         whenStringBiggestHashCodeFirst("")
         whenStringBiggestHashCodeFirst("a")
