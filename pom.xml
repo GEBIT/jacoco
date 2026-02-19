@@ -3,7 +3,7 @@
 
   <groupId>org.jacoco</groupId>
   <artifactId>root</artifactId>
-  <version>0.8.13</version>
+  <version>0.8.14</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -12,12 +12,12 @@
 
   <properties>
   <!-- GEBIT: versions to be used for gebit-build support -->
-  <version.tiles>2.8-gebit38</version.tiles>
-  <version.gebit-build-extension>1.2.2</version.gebit-build-extension>
-  <version.gebit-forked>1.0.2</version.gebit-forked>
+  <version.tiles>2.8-gebit40</version.tiles>
+  <version.gebit-build-extension>2.0.0</version.gebit-build-extension>
+  <version.gebit-forked>1.0.7</version.gebit-forked>
   <tiles.applyBefore>org.jacoco:root</tiles.applyBefore>
   <tiles.mergeTarget>${tiles.applyBefore}</tiles.mergeTarget>
-  <version.build>3.9.1</version.build>
+  <version.build>3.13.0</version.build>
   <version.java>17</version.java>
   <!-- GEBIT: end -->
   </properties>

@@ -43,7 +43,7 @@ public class BridgeFilterTest extends FilterTestBase {
 
 		filter.filter(m, context, output);
 
-		assertIgnored();
+		assertIgnored(m);
 	}
 
 }

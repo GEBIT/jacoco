@@ -13,6 +13,8 @@
 package org.jacoco.core.test.validation.kotlin.targets
 
 import org.jacoco.core.test.validation.targets.Stubs.nop
+import org.jacoco.core.test.validation.targets.Stubs.StubException
+import org.jacoco.core.test.validation.targets.Stubs.ex
 
 /**
  * Test target for [safe call operator (`?.`)](https://kotlinlang.org/docs/null-safety.html#safe-call-operator).
@@ -56,6 +58,28 @@ object KotlinSafeCallOperatorTarget {
 
     private fun safeCallChainMultiline() {
         fun nullOnly(a: A?): String? =
+            a // assertNotCovered()
+                ?.b // assertPartlyCovered(1, 1)
+                ?.c // assertPartlyCovered(1, 1)
+
+        fun nonNullOnly(a: A?): String? =
+            a // assertFullyCovered()
+                ?.b // assertPartlyCovered(1, 1)
+                ?.c // assertFullyCovered(1, 1)
+
+        fun fullCoverage(a: A?): String? =
+            a // assertFullyCovered()
+                ?.b // assertFullyCovered(0, 2)
+                ?.c // assertFullyCovered(0, 2)
+
+        nullOnly(null)
+        nonNullOnly(A(B("")))
+        fullCoverage(null)
+        fullCoverage(A(B("")))
+    }
+
+    private fun safeCallChainMultiline2() {
+        fun nullOnly(a: A?): String? =
             a?.also { // assertPartlyCovered(1, 1)
                 nop(it) // assertNotCovered()
             }?.b?.c // assertPartlyCovered(1, 1)
@@ -76,11 +100,106 @@ object KotlinSafeCallOperatorTarget {
         fullCoverage(A(B("")))
     }
 
+    private fun safeCallChainException() {
+        fun example(a: A?): String? =
+            a?.also { ex() }?.b?.c // assertPartlyCovered(3, 1)
+
+        try {
+            example(A(B("")))
+        } catch (_: StubException) {
+        }
+    }
+
+    private fun safeCallFollowedByElvis() {
+        fun nullOnly(b: B?): String =
+            b?.c ?: "" // assertPartlyCovered(2, 2)
+
+        fun nonNullOnly(b: B?): String =
+            b?.c ?: "" // assertPartlyCovered(2, 2)
+
+        fun fullCoverage(b: B?): String =
+            b?.c ?: "" // assertFullyCovered(0, 4)
+
+        nullOnly(null)
+        nonNullOnly(B(""))
+        fullCoverage(null)
+        fullCoverage(B(""))
+    }
+
+    private fun safeCallFollowedByElvisMultiline() {
+        fun nullOnly(b: B?): String =
+            b // assertPartlyCovered(1, 1)
+                ?.c // assertPartlyCovered(1, 1)
+                ?: "" // assertFullyCovered()
+
+        fun nonNullOnly(b: B?): String =
+            b // assertFullyCovered(1, 1)
+                ?.c // assertFullyCovered(1, 1)
+                ?: "" // assertPartlyCovered()
+
+        fun fullCoverage(b: B?): String =
+            b // assertFullyCovered(0, 2)
+                ?.c // assertFullyCovered(0, 2)
+                ?: "" // assertFullyCovered()
+
+        nullOnly(null)
+        nonNullOnly(B(""))
+        fullCoverage(null)
+        fullCoverage(B(""))
+    }
+
+    private fun safeCallChainFollowedByElvis() {
+        fun nullOnly(a: A?): String =
+            a?.b?.c ?: "" // assertPartlyCovered(3, 3)
+
+        fun nonNullOnly(a: A?): String =
+            a?.b?.c ?: "" // assertPartlyCovered(3, 3)
+
+        fun fullCoverage(a: A?): String =
+            a?.b?.c ?: "" // assertFullyCovered(0, 6)
+
+        nullOnly(null)
+        nonNullOnly(A(B("")))
+        fullCoverage(null)
+        fullCoverage(A(B("")))
+    }
+
+    private fun safeCallChainFollowedByElvisMultiline() {
+        fun nullOnly(a: A?): String =
+            a // assertPartlyCovered(1, 1)
+                ?.b // assertPartlyCovered(1, 1)
+                ?.c // assertPartlyCovered(1, 1)
+                ?: "" // assertFullyCovered()
+
+        fun nonNullOnly(a: A?): String =
+            a // assertFullyCovered(1, 1)
+                ?.b // assertFullyCovered(1, 1)
+                ?.c // assertFullyCovered(1, 1)
+                ?: "" // assertPartlyCovered()
+
+        fun fullCoverage(a: A?): String =
+            a // assertFullyCovered(0, 2)
+                ?.b // assertFullyCovered(0, 2)
+                ?.c // assertFullyCovered(0, 2)
+                ?: "" // assertFullyCovered()
+
+        nullOnly(null)
+        nonNullOnly(A(B("")))
+        fullCoverage(null)
+        fullCoverage(A(B("")))
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
         safeCall()
         safeCallChain()
         safeCallChainMultiline()
+        safeCallChainMultiline2()
+        safeCallChainException()
+        safeCallFollowedByElvis()
+        safeCallFollowedByElvisMultiline()
+        safeCallChainFollowedByElvis()
+        safeCallChainFollowedByElvisMultiline()
     }
 
 }

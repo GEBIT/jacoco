@@ -15,13 +15,13 @@
 
   <groupId>org.jacoco</groupId>
   <artifactId>org.jacoco.build</artifactId>
-  <version>0.8.13</version>
+  <version>0.8.14</version>
   <packaging>pom</packaging>
 
   <parent>
   <groupId>org.jacoco</groupId>
   <artifactId>root</artifactId>
-  <version>0.8.13</version>
+  <version>0.8.14</version>
   </parent>
 
   <name>JaCoCo</name>
@@ -120,7 +120,7 @@
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
@@ -131,7 +131,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
+    <sonatypeOssDistMgmtSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
 
     <maven.build.timestamp.format>yyyyMMddhhmm</maven.build.timestamp.format>
     <jacoco.home.url>http://www.jacoco.org/jacoco</jacoco.home.url>
@@ -145,7 +145,7 @@
     <argLine>${jvm.args}</argLine>
 
     <!-- Dependencies versions -->
-    <asm.version>9.8</asm.version>
+    <asm.version>9.9</asm.version>
     <ant.version>1.9.16</ant.version>
     <args4j.version>2.0.28</args4j.version>
     <junit.version>4.13.2</junit.version>
@@ -313,7 +313,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -324,7 +324,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.9.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -334,7 +334,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -344,15 +344,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-invoker-plugin</artifactId>
-          <version>3.9.0</version>
-          <configuration>
-            <streamLogsOnFailures>true</streamLogsOnFailures>
-          </configuration>
+          <version>3.9.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.2.7</version>
+          <version>3.2.8</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -428,7 +425,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -443,7 +440,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.5.1</version>
         </plugin>
         <!-- Third-party plugins -->
         <plugin>
@@ -459,12 +456,12 @@
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
-          <version>2.44.3</version>
+          <version>3.0.0</version>
        </plugin>
        <plugin>
          <groupId>org.sonarsource.scanner.maven</groupId>
          <artifactId>sonar-maven-plugin</artifactId>
-         <version>5.0.0.4389</version>
+         <version>5.2.0.4988</version>
        </plugin>
       </plugins>
     </pluginManagement>
@@ -529,7 +526,7 @@
                   <version>17</version>
                 </requireJavaVersion>
                 <requireMavenVersion>
-                  <version>3.6.3</version>
+                  <version>3.9.11</version>
                 </requireMavenVersion>
                 <requireNoRepositories>
                   <message>The rules for repo1.maven.org are that pom.xml files should not include repository definitions.</message>
@@ -970,6 +967,20 @@
       </properties>
     </profile>
 
+    <profile>
+      <id>java26-bytecode</id>
+      <activation>
+        <property>
+          <name>bytecode.version</name>
+          <value>26</value>
+        </property>
+      </activation>
+      <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+      </properties>
+    </profile>
+
     <!-- This profile enables use of ECJ -->
     <profile>
       <id>ecj</id>
@@ -991,7 +1002,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.37.0</version>
+                <version>3.41.0</version>
               </dependency>
               <dependency>
                 <groupId>org.codehaus.plexus</groupId>
